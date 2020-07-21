@@ -4,22 +4,22 @@ import { TaskListContext } from '../context/TaskListContext';
 
 const TaskForm = () => {
   const text = useInputValue('');
-  const { editItem, addTask, clearList, addEditTask } = useContext(
+  const { editItem, addTask, clearList, editTask } = useContext(
     TaskListContext
   );
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (editItem) {
+      editTask(text.value, editItem.id);
+    } else {
+      addTask(text.value);
+    }
+    text.onReset();
+  };
+
   return (
-    <form
-      className="form"
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (editItem) {
-          addEditTask();
-        } else {
-          addTask(text.value);
-        }
-        text.onReset();
-      }}>
+    <form className="form" onSubmit={onSubmit}>
       <input
         type="text"
         className="task-input"

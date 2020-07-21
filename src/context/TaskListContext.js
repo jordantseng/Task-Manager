@@ -29,21 +29,14 @@ const TaskListContextProvider = ({ children }) => {
     setEditItem(tasks.find((task) => task.id === id));
   };
 
-  const editTask = (value) => {
-    setEditItem({ ...editItem, title: value });
+  const editTask = (title, id) => {
+    const newTasks = tasks.map((task) =>
+      task.id === id ? { title, id } : task
+    );
+
+    setTasks(newTasks);
+    setEditItem(null);
   };
-
-  const addEditTask = () => {
-    setTasks(tasks.map((task) => (task.id === editItem.id ? editItem : task)));
-  };
-
-  // const editTask = (title, id) => {
-  //   const newTasks = task.map((task) =>
-  //     task.id === id ? { title, id } : task
-  //   );
-
-  //   setTasks(newTasks);
-  // };
 
   return (
     <TaskListContext.Provider
@@ -55,7 +48,6 @@ const TaskListContextProvider = ({ children }) => {
         clearList,
         findItem,
         editTask,
-        addEditTask,
       }}>
       {children}
     </TaskListContext.Provider>
